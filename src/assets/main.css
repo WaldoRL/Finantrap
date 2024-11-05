@@ -1,0 +1,23 @@
+@import './base.css';
+
+#app {
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: #707070;
+  transition: 0.4s; 
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: #039fce98;
+  }
+}
+.Navbar{
+  background-color: #17bbee
+}
+
