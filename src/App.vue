@@ -6,16 +6,11 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const isauthenticated = ref(false);
-const isNavVisible = ref(false); // Estado para controlar la visibilidad de la nav
 const router = useRouter();
 
 onAuthStateChanged(Auth, (user) => {
   isauthenticated.value = !!user;
 });
-
-const toggleNav = () => {
-  isNavVisible.value = !isNavVisible.value;
-};
 
 const logout = async () => {
   await signOut(Auth);
@@ -26,9 +21,9 @@ const logout = async () => {
 
 <template>
   <header class="Navbar">
-    <img alt="Finan Logo" class="logo" src="@/assets/logo.png" width="75" height="75" @click="toggleNav" />
+    <img alt="Finan Logo" class="logo" src="@/assets/logo.png" width="75" height="75">
 
-    <nav v-if="isauthenticated && isNavVisible">
+    <nav v-if="isauthenticated">
       <RouterLink to="/Transactions">Transactions</RouterLink>
       <RouterLink to="/Dashboard">Dashboard</RouterLink>
       <button @click="logout" id="logout" class="custom-button">Logout</button>
@@ -44,12 +39,6 @@ const logout = async () => {
 header {
   line-height: 1.5;
   max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-  cursor: pointer; /* Cambia el cursor para indicar que es clicable */
 }
 
 .custom-button {
