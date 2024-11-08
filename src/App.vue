@@ -41,12 +41,6 @@ header {
   max-height: 100vh;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-  cursor: pointer; /* Cambia el cursor para indicar que es clicable */
-}
-
 .custom-button {
   background-color: #17bbee;
   border: none;
