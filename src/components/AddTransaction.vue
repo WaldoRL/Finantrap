@@ -4,8 +4,9 @@ import { getDatabase, ref as dbRef, push } from 'firebase/database';
 import { Auth } from '../firebase.js';
 
 const transactionType = ref(''); // Variable para almacenar el tipo de transacción seleccionado
-const amount = ref(0);
-const db = getDatabase(); // Variable para almacenar la cantidad ingresada
+const amount = ref(0); // Variable para almacenar la cantidad ingresada
+const db = getDatabase();
+const successMessage = ref('');
 
 const AddTransaction = async (event) => {
     event.preventDefault(); // Evitar el comportamiento por defecto del formulario
@@ -19,7 +20,10 @@ const AddTransaction = async (event) => {
             userId: user.uid
         };
         await push(transactionsRef, newTransaction);
-        alert('Transacción agregada correctamente');
+        successMessage.value ='Transacción agregada correctamente';
+        setTimeout(() => {
+            successMessage.value = '';
+        }, 3000); // El mensaje desaparecerá después de 3 segundos
         amount.value = 0; // Reiniciar el valor de amount después de agregar la transacción
         transactionType.value = ''; // Reiniciar el valor de transactionType después de agregar la transacción
     }
@@ -44,6 +48,7 @@ const AddTransaction = async (event) => {
         </div>
         <button type="submit" class="submit-button">Agregar</button>
       </form>
+      <p v-if="successMessage">{{ successMessage }}</p>
     </div>
 </template>
 
@@ -103,5 +108,11 @@ input:focus {
 .submit-button:hover {
   background-color: #027f9a;
 }
-</style>
 
+p {
+  text-align: center;
+  color: #4caf50;
+  font-weight: bold;
+}
+</style>
+  
