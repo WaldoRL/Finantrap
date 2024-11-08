@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
 const isLogin = ref(true);
@@ -11,7 +11,6 @@ const successMessage = ref('');
 const errorMessage = ref('');
 const router = useRouter();
 const auth = getAuth();
-const provider = new GoogleAuthProvider();
 
 const toggleAuth = () => {
     isLogin.value = !isLogin.value;
@@ -50,17 +49,6 @@ const handleSubmit = async () => {
         }
     }
 };
-
-const signInWithGoogle = async () => {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        console.log('Inicio de sesión con Google exitoso:', result.user);
-        router.push('/Dashboard'); // Redirigir al Dashboard después de un inicio de sesión exitoso
-    } catch (error) {
-        console.error('Error al iniciar sesión con Google:', error.message);
-        errorMessage.value = 'Ocurrió un error al iniciar sesión con Google. Por favor, inténtalo de nuevo.';
-    }
-};
 </script>
 
 <template>
@@ -79,14 +67,6 @@ const signInWithGoogle = async () => {
                 <div class="form-group">
                     <label for="Password">Contraseña</label>
                     <input id="Password" v-model="password" type="password" placeholder="Contraseña" required>
-                </div>
-                <div>
-                    <button @click="signInWithGoogle" type="button" class="custom-button google-button">
-                        <span class="google-icon">
-                            <img src="@/assets/Google_Icon.png" alt="Google Logo" class="google-logo">
-                        </span>
-                        <span>Iniciar sesión con Google</span>
-                    </button>
                 </div>
             </div>
             <button type="submit" class="submit-button">{{ isLogin ? "Iniciar sesión" : "Registrarme" }}</button>
@@ -180,39 +160,5 @@ input:focus {
 .error-message {
     color: red;
     margin-top: 10px;
-}
-
-.custom-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #039fce98;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.custom-button:hover {
-    background-color: #027f9a;
-}
-
-.google-button {
-    margin-bottom: 10px; /* Añadir margen inferior para separación */
-}
-
-.google-logo {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px; /* Añadir margen derecho para separación */
-}
-
-.google-icon {
-    display: flex;
-    align-items: center;
 }
 </style>
